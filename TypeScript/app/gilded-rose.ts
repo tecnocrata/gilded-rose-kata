@@ -17,14 +17,39 @@ export class GildedRose {
     this.items = items;
   }
 
-  // updateQuality2() {
-  //   for (const item of this.items) {
-  //     item.sellIn--;
-  //     item.quality = item.quality - item.sellIn < 0 ? 2 : 1;
-  //   }
-  // }
-
   updateQuality() {
+    for (let i = 0; i < this.items.length; i++) {
+      let item = this.items[i];
+      switch (item.name) {
+        case "Aged Brie":
+          item.sellIn--;
+          item.quality = item.quality + (item.sellIn < 0 ? 2 : 1);
+          break;
+        case "Sulfuras, Hand of Ragnaros":
+          break;
+        case "Backstage passes to a TAFKAL80ETC concert":
+          item.sellIn--;
+          let increase = 0;
+          if (item.sellIn > 10) increase = 1;
+          else if (item.sellIn > 5 && item.sellIn <= 10) increase = 2;
+          else if (item.sellIn > 0 && item.sellIn <= 5) increase = 3;
+          else {
+            item.quality = 0;
+            break;
+          }
+          item.quality = item.quality + increase;
+          break;
+        default:
+          item.sellIn--;
+          item.quality = item.quality - (item.sellIn <= 0 ? 2 : 1);
+          break;
+      }
+    }
+    //console.log("items", this.items);
+    return this.items;
+  }
+
+  updateQuality2() {
     for (let i = 0; i < this.items.length; i++) {
       if (
         this.items[i].name != "Aged Brie" &&
