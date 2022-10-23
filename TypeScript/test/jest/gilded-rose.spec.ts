@@ -52,6 +52,13 @@ describe("Negative checks", () => {
       expect(items[0].sellIn).toBeGreaterThanOrEqual(-1);
       expect(items[0].quality).toBeGreaterThanOrEqual(0);
     });
+    it("should not decrease quality even if we set to -1", () => {
+      const gildedRose = new GildedRose([new Item("product1", 0, -1)]);
+      const items = gildedRose.updateQuality();
+      expect(items[0].name).toBe("product1");
+      expect(items[0].sellIn).toBeGreaterThanOrEqual(-1);
+      expect(items[0].quality).toBeGreaterThanOrEqual(-1);
+    });
     it("should not have negative quialitiy for Aged Brie", () => {
       const gildedRose = new GildedRose([new Item("Aged Brie", 0, 0)]);
       const items = gildedRose.updateQuality();

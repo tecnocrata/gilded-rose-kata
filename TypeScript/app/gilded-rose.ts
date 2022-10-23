@@ -44,7 +44,9 @@ export class GildedRose {
           break;
         default:
           item.sellIn--;
-          item.quality = item.quality - (item.sellIn <= 0 ? 2 : 1);
+          qualityIncrease = -(item.sellIn <= 0 ? 2 : 1);
+          if (item.quality + qualityIncrease > 0)
+            item.quality = item.quality + qualityIncrease;
           break;
       }
     }
