@@ -20,24 +20,27 @@ export class GildedRose {
   updateQuality() {
     for (let i = 0; i < this.items.length; i++) {
       let item = this.items[i];
+      let qualityIncrease = 0;
       switch (item.name) {
         case "Aged Brie":
           item.sellIn--;
-          item.quality = item.quality + (item.sellIn < 0 ? 2 : 1);
+          qualityIncrease = item.sellIn < 0 ? 2 : 1;
+          if (item.quality + qualityIncrease <= 50)
+            item.quality = item.quality + (item.sellIn < 0 ? 2 : 1);
           break;
         case "Sulfuras, Hand of Ragnaros":
           break;
         case "Backstage passes to a TAFKAL80ETC concert":
           item.sellIn--;
-          let increase = 0;
-          if (item.sellIn > 10) increase = 1;
-          else if (item.sellIn > 5 && item.sellIn <= 10) increase = 2;
-          else if (item.sellIn > 0 && item.sellIn <= 5) increase = 3;
+          qualityIncrease = 0;
+          if (item.sellIn > 10) qualityIncrease = 1;
+          else if (item.sellIn > 5 && item.sellIn <= 10) qualityIncrease = 2;
+          else if (item.sellIn > 0 && item.sellIn <= 5) qualityIncrease = 3;
           else {
             item.quality = 0;
             break;
           }
-          item.quality = item.quality + increase;
+          item.quality = item.quality + qualityIncrease;
           break;
         default:
           item.sellIn--;

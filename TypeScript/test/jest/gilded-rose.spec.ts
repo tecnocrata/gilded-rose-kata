@@ -194,12 +194,20 @@ describe("Aged brie cases", () => {
     expect(items[0].quality).toEqual(31);
   });
 
-  it("should increase its quality every day in 2 after sellin=0", () => {
+  it("should increase its quality every day in 2 on sellin=0", () => {
     const gildedRose = new GildedRose([new Item("Aged Brie", 0, 31)]);
     const items = gildedRose.updateQuality();
     expect(items[0].name).toBe("Aged Brie");
     expect(items[0].sellIn).toEqual(-1);
     expect(items[0].quality).toEqual(33);
+  });
+
+  it("should increase its quality every day in 2 after sellin=0", () => {
+    const gildedRose = new GildedRose([new Item("Aged Brie", -1, 33)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toBe("Aged Brie");
+    expect(items[0].sellIn).toEqual(-2);
+    expect(items[0].quality).toEqual(35);
   });
 });
 
