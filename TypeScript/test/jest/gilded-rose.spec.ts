@@ -193,7 +193,15 @@ describe("Quality of an item is never more than 50?", () => {
 });
 
 describe("Aged brie cases", () => {
-  it("should increase its quality every day in 1", () => {
+  it("should increase its quality every day in 1 sellin=1", () => {
+    const gildedRose = new GildedRose([new Item("Aged Brie", 2, 30)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toBe("Aged Brie");
+    expect(items[0].sellIn).toEqual(1);
+    expect(items[0].quality).toEqual(31);
+  });
+
+  it("should increase its quality every day in 1 sellin=0", () => {
     const gildedRose = new GildedRose([new Item("Aged Brie", 1, 30)]);
     const items = gildedRose.updateQuality();
     expect(items[0].name).toBe("Aged Brie");
