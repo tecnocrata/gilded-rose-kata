@@ -35,7 +35,7 @@ export class GildedRose {
           qualityIncrease = 0;
           if (item.sellIn > 10) qualityIncrease = 1;
           else if (item.sellIn > 5 && item.sellIn <= 10) qualityIncrease = 2;
-          else if (item.sellIn > 0 && item.sellIn <= 5) qualityIncrease = 3;
+          else if (item.sellIn >= 0 && item.sellIn <= 5) qualityIncrease = 3;
           else {
             item.quality = 0;
             break;
@@ -48,7 +48,7 @@ export class GildedRose {
           break;
         default:
           item.sellIn--;
-          qualityIncrease = -(item.sellIn <= 0 ? 2 : 1);
+          qualityIncrease = -(item.sellIn < 0 ? 2 : 1);
           if (item.quality + qualityIncrease > 0)
             item.quality = item.quality + qualityIncrease;
           break;

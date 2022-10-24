@@ -272,11 +272,65 @@ describe("Backstage passes to a TAFKAL80ETC concert cases", () => {
 
   it("should have quality = 0 when sellin<=0", () => {
     const gildedRose = new GildedRose([
+      new Item("Backstage passes to a TAFKAL80ETC concert", 1, 29),
+    ]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toBe("Backstage passes to a TAFKAL80ETC concert");
+    expect(items[0].sellIn).toEqual(0);
+    expect(items[0].quality).toEqual(32);
+  });
+
+  it("should have quality = 0 when sellin<=0", () => {
+    const gildedRose = new GildedRose([
       new Item("Backstage passes to a TAFKAL80ETC concert", 0, 29),
     ]);
     const items = gildedRose.updateQuality();
     expect(items[0].name).toBe("Backstage passes to a TAFKAL80ETC concert");
     expect(items[0].sellIn).toEqual(-1);
     expect(items[0].quality).toEqual(0);
+  });
+
+  it("should have quality = 0 when sellin<=-1", () => {
+    const gildedRose = new GildedRose([
+      new Item("Backstage passes to a TAFKAL80ETC concert", -1, 0),
+    ]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toBe("Backstage passes to a TAFKAL80ETC concert");
+    expect(items[0].sellIn).toEqual(-2);
+    expect(items[0].quality).toEqual(0);
+  });
+});
+
+describe("Any good cases", () => {
+  it("should decrease its quality every day in 1", () => {
+    const gildedRose = new GildedRose([new Item("My good", 2, 30)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toBe("My good");
+    expect(items[0].sellIn).toEqual(1);
+    expect(items[0].quality).toEqual(29);
+  });
+
+  it("should decrease its quality every day in 1 after sell=0", () => {
+    const gildedRose = new GildedRose([new Item("My good", 1, 29)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toBe("My good");
+    expect(items[0].sellIn).toEqual(0);
+    expect(items[0].quality).toEqual(28);
+  });
+
+  it("should decrease its quality every day in 2 after sell>0", () => {
+    const gildedRose = new GildedRose([new Item("My good", 0, 28)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toBe("My good");
+    expect(items[0].sellIn).toEqual(-1);
+    expect(items[0].quality).toEqual(26);
+  });
+
+  it("should decrease its quality every day in 2 after sell> -1", () => {
+    const gildedRose = new GildedRose([new Item("My good", -1, 26)]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].name).toBe("My good");
+    expect(items[0].sellIn).toEqual(-2);
+    expect(items[0].quality).toEqual(24);
   });
 });
