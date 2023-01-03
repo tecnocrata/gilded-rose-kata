@@ -58,6 +58,60 @@ export class GildedRose {
     return this.items;
   }
 
+  agedBrie = (item) => {
+    item.sellIn--;
+    const qualityIncrease = item.sellIn < 0 ? 2 : 1;
+    if (item.quality + qualityIncrease <= 50)
+      item.quality = item.quality + (item.sellIn < 0 ? 2 : 1);
+    return item;
+  };
+
+  sulfutas = (item) => {
+    return item;
+  };
+
+  backstage = (item) => {
+    item.sellIn--;
+    let qualityIncrease = 0;
+    if (item.sellIn > 10) qualityIncrease = 1;
+    else if (item.sellIn > 5 && item.sellIn <= 10) qualityIncrease = 2;
+    else if (item.sellIn >= 0 && item.sellIn <= 5) qualityIncrease = 3;
+    else {
+      item.quality = 0;
+      return item;
+    }
+    if (
+      item.quality + qualityIncrease > 0 &&
+      item.quality + qualityIncrease <= 50
+    )
+      item.quality = item.quality + qualityIncrease;
+    return item;
+  };
+
+  byDefault = (item) => {
+    item.sellIn--;
+    const qualityIncrease = -(item.sellIn < 0 ? 2 : 1);
+    if (item.quality + qualityIncrease > 0)
+      item.quality = item.quality + qualityIncrease;
+    return item;
+  };
+
+  goods = {
+    "Aged Brie": this.agedBrie,
+    "Sulfuras, Hand of Ragnaros": this.sulfutas,
+    "Backstage passes to a TAFKAL80ETC concert": this.backstage,
+  };
+
+  updateQuality3() {
+    for (let i = 0; i < this.items.length; i++) {
+      this.items[i] = this.goods[this.items[i].name]
+        ? this.goods[this.items[i].name](this.items[i])
+        : this.byDefault(this.items[i]);
+    }
+    //console.log("items", this.items);
+    return this.items;
+  }
+
   updateQuality2() {
     for (let i = 0; i < this.items.length; i++) {
       if (
